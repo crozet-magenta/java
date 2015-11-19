@@ -13,7 +13,7 @@ public interface ICleanable {
      */
     public boolean is_clean();
 
-    public void clean();
+    public void clean() throws Exception;
 
 
 }

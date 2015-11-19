@@ -18,7 +18,7 @@ public class Main {
 
     public static final String APP_NAME = "Theme Park";
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
 
         System.out.println(APP_NAME + " - V" + VERSION + "\n\n");
 
@@ -101,9 +101,6 @@ public class Main {
         System.out.println(area.toString());
         System.out.println(bank.toString());
         System.out.println(shop.toString());
-
-
-
 
 
 
