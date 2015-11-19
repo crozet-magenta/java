@@ -19,14 +19,14 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
     protected int minAge = 0;
 
     /**
-     * price of the attraction (Boss mode : buy attraction)
-     */
-    protected double price = 0;
-
-    /**
      * Maximum age required to do the attraction
      */
     protected int maxAge = 120;
+
+    /**
+     * price of the attraction (Boss mode : buy attraction)
+     */
+    protected double price = 0;
 
 
 
@@ -36,6 +36,12 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
     public Attraction() {
     }
 
+    public Attraction(String name, int minAge, int maxAge, double price) {
+        this.name = name;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.price = price;
+    }
 
     @Override
     public void open() {
@@ -56,5 +62,15 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
     @Override
     public void clean() {
 
+    }
+
+    @Override
+    public String toString() {
+        return "Attraction{" +
+                "name='" + name + '\'' +
+                ", minAge=" + minAge +
+                ", maxAge=" + maxAge +
+                ", price=" + price +
+                '}';
     }
 }

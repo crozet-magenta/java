@@ -42,12 +42,12 @@ public class Main {
          * Models
          **/
 
-        // Attractions models
-        Aquatic aquatic = new Aquatic();
-        Carousel carousel = new Carousel();
-        Child child = new Child();
-        DropTower dropTower = new DropTower();
-        RollerCoaster rollerCoaster = new RollerCoaster();
+//        // Attractions models
+//        Aquatic aquatic = new Aquatic();
+//        Carousel carousel = new Carousel();
+//        Child child = new Child();
+//        DropTower dropTower = new DropTower();
+//        RollerCoaster rollerCoaster = new RollerCoaster();
 
 
         // Shop model
@@ -78,11 +78,11 @@ public class Main {
 
 
         // Links models to controller
-        manager.addModel(aquatic);
-        manager.addModel(carousel);
-        manager.addModel(child);
-        manager.addModel(dropTower);
-        manager.addModel(rollerCoaster);
+//        manager.addModel(aquatic);
+//        manager.addModel(carousel);
+//        manager.addModel(child);
+//        manager.addModel(dropTower);
+//        manager.addModel(rollerCoaster);
         manager.addModel(shop);
         manager.addModel(bank);
         manager.addModel(area);
@@ -97,13 +97,18 @@ public class Main {
          * Put code Here
          */
 
-        System.out.println(park.toString());
-        System.out.println(area.toString());
-        System.out.println(bank.toString());
-        System.out.println(shop.toString());
+        app.debug(park.getStock());
 
+        app.debug(shop.buyAttraction(0));
+        app.debug(shop.buyAttraction(1));
 
+        app.debug(park.getStock());
+        app.debug(park.getMoney());
 
+        app.debug(shop.sell(0));
+
+        app.debug(park.getStock());
+        app.debug(park.getMoney());
 
 
 

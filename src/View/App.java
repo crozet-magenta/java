@@ -1,6 +1,7 @@
 package View;
 
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.Observable;
 
 /**
@@ -20,5 +21,10 @@ public class App extends View {
     @Override
     public void addController(ActionListener controller) {
 
+    }
+
+    public <T> void debug(T data) {
+        System.out.print("[DEBUG]");
+        System.out.println(data);
     }
 }

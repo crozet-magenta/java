@@ -15,8 +15,4 @@ public abstract class Model extends java.util.Observable {
 
 
 
-
-
-
-	
 } //Model

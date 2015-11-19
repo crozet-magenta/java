@@ -16,9 +16,9 @@ public class Park extends Model {
 
     /**
      * Park size
-     * Default : 100 Hectare
+     * Default : 10 Hectare
      */
-    private static final int size = 100;
+    private static final int size = 10;
 
     /**
      * Ticket prices to visit the park
@@ -28,18 +28,18 @@ public class Park extends Model {
     /**
      * Area list
      */
-    private ArrayList<Area> Areas;
+    private ArrayList<Area> areas = new ArrayList<>();
 
     /**
      * Attraction list
      * Contain list of uninstalled attractions
      */
-    private ArrayList<Attraction> stock;
+    private ArrayList<Attraction> stock = new ArrayList<>();
 
     /**
      * Park money
      */
-    private double money;
+    private double money = 500000;
 
     /**
      * Park instance (Singleton)
@@ -68,6 +68,10 @@ public class Park extends Model {
         return INSTANCE;
     }
 
+    public int getSize() {
+        return size;
+    }
+
 
     /**
      * Define the name of your park
@@ -84,9 +88,53 @@ public class Park extends Model {
                 "name='" + name + '\'' +
                 ", status=" + status +
                 ", prices=" + prices +
-                ", Areas=" + Areas +
+                ", Areas=" + areas +
                 ", stock=" + stock +
                 ", money=" + money +
                 '}';
     }
-} //RunMVC
+
+    public ArrayList<Attraction> getStock() {
+        return stock;
+    }
+
+    public ArrayList<Area> getAreas() {
+        return areas;
+    }
+
+    public boolean pickMoney(double price) {
+        if (this.money < price) {
+            return false;
+        }
+        else {
+            money -= price;
+            return true;
+        }
+    }
+
+    public void appendToStock(Attraction attraction) {
+        this.stock.add(attraction);
+    }
+
+    public boolean appendToAreas(Area area) {
+        if (this.areas.size() >= Park.getInstance().getSize()) {
+            return false;
+        } else {
+            this.areas.add(area);
+            return true;
+        }
+
+    }
+
+    public void removeFromStock(Attraction attraction) {
+        this.stock.remove(attraction);
+    }
+
+    public void addMoney(double value) {
+        this.money += value;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+}

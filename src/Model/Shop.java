@@ -1,6 +1,10 @@
 package Model;
 
+import org.w3c.dom.Attr;
+
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 
@@ -10,7 +14,12 @@ public class Shop extends Model {
     /**
      * Attraction list
      */
-    private ArrayList<Attraction> attractionList;
+    private ArrayList<Attraction> attractionList = new ArrayList<>();
+
+    /**
+     * AreaList list
+     */
+    private ArrayList<Area> areaList = new ArrayList<>();
 
 
     /**
@@ -18,12 +27,25 @@ public class Shop extends Model {
      */
     private static Shop INSTANCE;
 
+    private final double sellPrice = 0.5;
+
 
     /**
      * Default shop constructor
      */
     private Shop() {
+        /**
+         * ADD SOME ATTRACTIONS AND AREAS
+         */
+        this.attractionList.add(new Carousel("Manège pour enfants", 3, 12, 1500));
+        this.attractionList.add(new Carousel("Manège pour adultes", 18, 99, 2500));
+        this.attractionList.add(new Carousel("Manège voitures", 7, 18, 2000));
 
+        this.areaList.add(new Area(Area.AQUATIC));
+        this.areaList.add(new Area(Area.CAROUSEL));
+        this.areaList.add(new Area(Area.CHILD));
+        this.areaList.add(new Area(Area.DROP_TOWER));
+        this.areaList.add(new Area(Area.ROLLER_COASTER));
     } // Shop()
 
 
@@ -39,19 +61,61 @@ public class Shop extends Model {
         return INSTANCE;
     }
 
+    public ArrayList<String> attractionList() {
+        return this.attractionList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+    public ArrayList<String> areaList() {
+        return this.areaList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
+    }
+
 
     /**
      * 
      */
-    public void buy() {
-        // TODO implement here
+    public String buyAttraction(int id) {
+        Attraction attraction = this.attractionList.get(id);
+        String message;
+        Park park = Park.getInstance();
+
+        if (park.pickMoney(attraction.price)) {
+            message = "Acheté :)";
+            park.appendToStock(attraction);
+        } else {
+            message = "Pas assez d'argent :(";
+        }
+        return message;
+    }
+
+    /**
+     *
+     */
+    public String buyArea(int id) {
+        Area area = this.areaList.get(id);
+        String message;
+        Park park = Park.getInstance();
+
+        if (park.pickMoney(area.price)) {
+            if (park.appendToAreas(area)) {
+                message = "Acheté :)";
+            }else {
+                message = "Plus de place :'(";
+            }
+        } else {
+            message = "Pas assez d'argent :(";
+        }
+        return message;
     }
 
     /**
      * 
      */
-    public void sell() {
-        // TODO implement here
+    public double sell(int id) {
+        Attraction attraction = Park.getInstance().getStock().get(id);
+        double value = attraction.price * this.sellPrice;
+        Park.getInstance().removeFromStock(attraction);
+        Park.getInstance().addMoney(value);
+        return value;
     }
 
     /**
