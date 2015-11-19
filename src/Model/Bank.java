@@ -24,25 +24,30 @@ public class Bank extends Model {
 
 
     /**
-     *
+     * Bank instance (singleton)
      */
     private static Bank INSTANCE;
 
 
     /**
-     * Default constructor
+     * Default bank constructor
      */
-    public Bank() {
-    }
+    private Bank() {
+
+    } // Bank()
 
 
+    /**
+     * Function getInstance()
+     * Singleton
+     * @return INSTANCE
+     */
     public static Bank getInstance() {
         if(INSTANCE == null)
             INSTANCE = new Bank();
 
         return INSTANCE;
     }
-
 
 
     /**
@@ -59,4 +64,13 @@ public class Bank extends Model {
         // TODO implement here
     }
 
+
+    @Override
+    public String toString() {
+        return "Bank{" +
+                "loaningDate=" + loaningDate +
+                ", loaningAmount=" + loaningAmount +
+                ", maxAmount=" + maxAmount +
+                '}';
+    }
 }

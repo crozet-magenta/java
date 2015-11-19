@@ -18,17 +18,17 @@ public class Manager extends Controller {
     }
 
     /**
-     * 
+     * Boss action list
      */
     private static ArrayList<String> actionsBoss;
 
     /**
-     * 
+     * game mode (Boss | Visitor)
      */
     private int mode;
 
     /**
-     * 
+     * Visitor action list
      */
     private static ArrayList<String> actionVisitor;
 
@@ -40,7 +40,7 @@ public class Manager extends Controller {
     }
 
     /**
-     * 
+     * switch to Boss mode or Visitor mode
      */
     public void changeMode() {
         // TODO implement here

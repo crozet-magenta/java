@@ -9,24 +9,24 @@ import Interfaces.IOpenable;
 public abstract class Attraction extends Model implements IOpenable, ICleanable {
 
     /**
-     *
+     * Name of the Attraction
      */
-    private String name;
+    protected String name = "Unamed Attraction";
 
     /**
-     *
+     * Minimal age required to do the attraction
      */
-    private int minAge;
+    protected int minAge = 0;
 
     /**
-     *
+     * price of the attraction (Boss mode : buy attraction)
      */
-    private double price;
+    protected double price = 0;
 
     /**
-     *
+     * Maximum age required to do the attraction
      */
-    private int maxAge;
+    protected int maxAge = 120;
 
 
 
@@ -37,7 +37,24 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
     }
 
 
+    @Override
+    public void open() {
+
+    }
+
+    @Override
+    public void close() {
+
+    }
 
 
+    @Override
+    public boolean is_clean() {
+        return false;
+    }
 
+    @Override
+    public void clean() {
+
+    }
 }

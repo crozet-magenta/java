@@ -10,18 +10,17 @@ import java.util.Scanner;
  * class Main
  *
  * @author jonathan, cassian
- * @version 0.2
+ * @version 0.3
  */
 public class Main {
 
-    public static final double VERSION = 0.2;
-
+    public static final double VERSION = 0.3;
 
     public static final String APP_NAME = "Theme Park";
 
     public static void main(String[] args) {
 
-        System.out.println(APP_NAME + " - V" + VERSION + '\n');
+        System.out.println(APP_NAME + " - V" + VERSION + "\n\n");
 
         Park park = Park.getInstance();
 
@@ -33,13 +32,10 @@ public class Main {
 
 
 
-
-
         // MVC
         // Model : accès View
         // View  : accès Controller
         // Controller : accès Model / View
-
 
 
         /**
@@ -55,10 +51,10 @@ public class Main {
 
 
         // Shop model
-        Shop shop = new Shop();
+        Shop shop = Shop.getInstance();
 
         // Bank model
-        Bank bank = new Bank();
+        Bank bank = Bank.getInstance();
 
         // Area model
         Area area = new Area();
@@ -97,29 +93,18 @@ public class Main {
         manager.addView(app);
 
 
+        /**
+         * Put code Here
+         */
+
+        System.out.println(park.toString());
+        System.out.println(area.toString());
+        System.out.println(bank.toString());
+        System.out.println(shop.toString());
 
 
 
 
-
-
-        //create Model and View
-        //Boss bossModel = Boss.getInstance();
-        //View.Boss bossView 	= new View.Boss();
-
-
-        //tell Model about View.
-        //bossModel.addObserver(bossView);
-
-
-        //create Controller. tell it about Model and View, initialise model
-//        Controller.Boss bossController = new Controller.Boss();
-//        bossController.addModel(bossModel);
-//        bossController.addView(bossView);
-
-
-        //tell View about Controller
-//        bossView.addController(bossController);
 
 
     } //main()
