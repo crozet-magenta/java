@@ -97,21 +97,17 @@ public class Main {
          * Put code Here
          */
 
-        app.debug(park.getStock());
+        Park.getInstance().setDay(1);
+        app.debug(Bank.getInstance().takeLoan(8352.5));
 
-        app.debug(shop.buyAttraction(0));
-        app.debug(shop.buyAttraction(1));
+        Park.getInstance().setDay(10);
+        app.debug(Bank.getInstance().getLoanStatus());
 
-        app.debug(park.getStock());
-        app.debug(park.getMoney());
+        Park.getInstance().setDay(125);
+        app.debug(Bank.getInstance().getLoanStatus());
 
-        app.debug(shop.sell(0));
-
-        app.debug(park.getStock());
-        app.debug(park.getMoney());
-
-
-
+        app.debug(Bank.getInstance().payLoan());
+        app.debug(Bank.getInstance().getLoanStatus());
     } //main()
 
 } //Main

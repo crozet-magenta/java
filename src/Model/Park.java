@@ -14,6 +14,8 @@ public class Park extends Model {
      */
     private boolean status;
 
+    private int dayNumber = 0;
+
     /**
      * Park size
      * Default : 10 Hectare
@@ -45,7 +47,7 @@ public class Park extends Model {
      * Park instance (Singleton)
      */
 	private static Park INSTANCE;
-
+    private int day;
 
 
     /**
@@ -136,5 +138,13 @@ public class Park extends Model {
 
     public double getMoney() {
         return money;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
     }
 }
