@@ -24,8 +24,9 @@ public class Area extends Model {
 
     /**
      * Area type (Aquatic, Carousel, Child, DropTower, RollerCoaster)
+     * Default : Aquatic
      */
-    private int type = 0;
+    private int type = AQUATIC;
 
     /**
      * Number of maximum attraction in the same area
@@ -43,7 +44,7 @@ public class Area extends Model {
     private final int attractionSize = 1;
 
     /**
-     * Attraction list
+     * Attraction list : contain installed attractions
      */
     public ArrayList<Attraction> Attractions = new ArrayList();
 
@@ -67,11 +68,11 @@ public class Area extends Model {
 
 
     private void initAttractionTypes() {
-        AttractionTypes.put("0", "Aquatic");
-        AttractionTypes.put("1", "Carousel");
-        AttractionTypes.put("2", "Child");
-        AttractionTypes.put("3", "DropTower");
-        AttractionTypes.put("4", "RollerCoaster");
+        AttractionTypes.put("1", "Aquatic");
+        AttractionTypes.put("2", "Carousel");
+        AttractionTypes.put("3", "Child");
+        AttractionTypes.put("4", "DropTower");
+        AttractionTypes.put("5", "RollerCoaster");
     }
 
 
@@ -96,27 +97,27 @@ public class Area extends Model {
 
         switch (this.type) {
             // Aquatic
-            case 0:
+            case AQUATIC:
                 if(attraction instanceof Aquatic) return true;
                 break;
 
             // Carousel
-            case 1:
+            case CAROUSEL:
                 if(attraction instanceof Carousel) return true;
                 break;
 
             // Child
-            case 2:
+            case CHILD:
                 if(attraction instanceof Child) return true;
                 break;
 
             // DropTower
-            case 3:
+            case DROP_TOWER:
                 if(attraction instanceof DropTower) return true;
                 break;
 
             // RollerCoaster
-            case 4:
+            case ROLLER_COASTER:
                 if(attraction instanceof RollerCoaster) return true;
                 break;
 
@@ -171,7 +172,7 @@ public class Area extends Model {
 
         // Don't need to calculate if no attractions
         if(Attractions.isEmpty())
-            return 0;
+            return 100;
 
 
         int sumCleanLevel = 0;
@@ -189,14 +190,15 @@ public class Area extends Model {
 
 
     /**
-     * Cleaning all attractions
+     * Cleaning all attractions which cleanLevel <= 50
      */
     public void cleanAttractions() {
 
         // for each attraction
         for (Attraction attraction : Attractions) {
             // cleaning attraction
-            attraction.clean();
+            if(!attraction.is_clean())
+                attraction.clean();
         }
     }
 

@@ -4,6 +4,7 @@ import Interfaces.ICleanable;
 import Interfaces.IOpenable;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 
 public class Park extends Model implements IOpenable, ICleanable {
@@ -18,11 +19,14 @@ public class Park extends Model implements IOpenable, ICleanable {
      */
     private boolean status = false;
 
+    /**
+     * Start day
+     */
     private int day = 0;
 
     /**
      * Park size
-     * Default : 10 Hectare
+     * Default : 100 Hectare
      */
     private final int size = 100;
 
@@ -49,7 +53,7 @@ public class Park extends Model implements IOpenable, ICleanable {
 
     /**
      * Attraction list
-     * Contain list of uninstalled attractions
+     * Contain list of uninstalled bought attractions
      */
     private ArrayList<Attraction> stock = new ArrayList();
 
@@ -96,6 +100,10 @@ public class Park extends Model implements IOpenable, ICleanable {
         return INSTANCE;
     }
 
+    /**
+     * Return park size
+     * @return int
+     */
     public int getSize() {
         return size;
     }
@@ -143,12 +151,19 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
-
+    /**
+     * Recalculate the new value of park cleanLevel
+     */
     public void updateCleanLevel() {
         cleanLevel = calculateParkCleanLevel();
     }
 
 
+    /**
+     * Check if park is clean (cleanLevel >= 50)
+     *
+     * @return boolean
+     */
     @Override
     public boolean is_clean() {
 
@@ -161,6 +176,12 @@ public class Park extends Model implements IOpenable, ICleanable {
         return false;
     }
 
+
+    /**
+     * Function clean()
+     * Try to clean all the park
+     * @throws Exception
+     */
     @Override
     public void clean() throws Exception {
         if (status == true)
@@ -216,15 +237,23 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
+    /**
+     * Open the park
+     */
     @Override
     public void open() {
         this.status = true;
     }
 
+
+    /**
+     * Close the park
+     */
     @Override
     public void close() {
         this.status = false;
     }
+
 
     @Override
     public String toString() {
@@ -240,14 +269,31 @@ public class Park extends Model implements IOpenable, ICleanable {
                 '}';
     }
 
+
+    /**
+     * Return uninstalled attractions
+     * @return ArrayList<Attraction>
+     */
     public ArrayList<Attraction> getStock() {
         return stock;
     }
 
+
+    /**
+     * Return list of Areas added in the park
+     * @return ArrayList<Area>
+     */
     public ArrayList<Area> getAreas() {
         return areas;
     }
 
+
+    /**
+     * Retire price in park money
+     * Return true if success
+     * @param price
+     * @return boolean
+     */
     public boolean pickMoney(double price) {
         if (this.money < price) {
             return false;
@@ -258,37 +304,89 @@ public class Park extends Model implements IOpenable, ICleanable {
         }
     }
 
+
+    /**
+     * Add uninstalled attraction to stock
+     * @param attraction
+     */
     public void appendToStock(Attraction attraction) {
         this.stock.add(attraction);
     }
 
+
+    /**
+     * Please use addArea()
+     * @deprecated
+     */
     public boolean appendToAreas(Area area) {
-        if (this.areas.size() >= Park.getInstance().getSize()) {
+
+        // Gitan
+        try {
+            addArea(area);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*if (this.areas.size() >= Park.getInstance().getSize()) {
             return false;
         } else {
             this.areas.add(area);
             return true;
-        }
+        }*/
+
+        return false;
 
     }
+
+
 
     public void removeFromStock(Attraction attraction) {
         this.stock.remove(attraction);
     }
 
+
+    /**
+     * Add value to park money
+     * @param value
+     */
     public void addMoney(double value) {
         this.money += value;
     }
 
+
+    /**
+     * Get park money
+     * @return double
+     */
     public double getMoney() {
         return money;
     }
 
+    /**
+     * Return current day
+     * @return int
+     */
     public int getDay() {
         return day;
     }
 
+    /**
+     * Define current day
+     * @param day
+     */
     public void setDay(int day) {
         this.day = day;
     }
+
+
+    /**
+     * Show attractions in stock
+     * @return ArrayList<String>
+     */
+    public ArrayList<String> showStock() {
+        return this.stock.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
+    }
+
+
 }

@@ -12,12 +12,12 @@ import java.util.stream.Collectors;
 public class Shop extends Model {
 
     /**
-     * Attraction list
+     * Attraction list : contain available attractions
      */
     private ArrayList<Attraction> attractionList = new ArrayList<>();
 
     /**
-     * AreaList list
+     * AreaList list : contain available areas
      */
     private ArrayList<Area> areaList = new ArrayList<>();
 

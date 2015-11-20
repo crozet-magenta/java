@@ -40,6 +40,17 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
      */
     private int cleanLevel = clean;
 
+    /**
+     * Price to clean the attraction
+     */
+    private final int cleanPrice = 50;
+
+    /**
+     * Attraction status (0 : closed | 1 : open )
+     * Default open
+     */
+    private boolean status = true;
+
 
 
     /**
@@ -55,34 +66,55 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
         this.price = price;
     }
 
+
+    /**
+     * Open attraction
+     */
     @Override
     public void open() {
-
+        this.status = true;
     }
 
+
+    /**
+     * Close attraction
+     */
     @Override
     public void close() {
-
+        this.status = false;
     }
 
 
+    /**
+     * Return attraction cleanLevel
+     * @return int
+     */
     public int getCleanLevel() {
         return cleanLevel;
     }
 
 
+    /**
+     * Check if the attraction is clean
+     * Return true if cleanLevel > 50
+     * @return boolean
+     */
     @Override
     public boolean is_clean() {
 
-        if(cleanLevel > 50)
+        if(this.cleanLevel > 50)
             return true;
 
         return false;
     }
 
+    /**
+     * Clean the attraction
+     */
     @Override
     public void clean() {
-        this.cleanLevel = clean;
+        if(Park.getInstance().pickMoney(cleanPrice))
+            this.cleanLevel = clean;
     }
 
 

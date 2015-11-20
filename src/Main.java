@@ -108,6 +108,8 @@ public class Main {
 
         app.debug(Bank.getInstance().payLoan());
         app.debug(Bank.getInstance().getLoanStatus());
+
+
     } //main()
 
 } //Main
