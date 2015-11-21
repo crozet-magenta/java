@@ -5,6 +5,7 @@ import View.View;
 import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class Manager extends Controller {
                 } else if (params.getClass() == java.lang.Integer.class) {
                     m = modelClass.getClass().getMethod(action, int.class);
                 } else {
-                    m = modelClass.getClass().getMethod(action, double.class);
+                    m = modelClass.getClass().getMethod(action, params.getClass());
                 }
                 return m.invoke(modelClass, params);
             }
@@ -104,10 +105,101 @@ public class Manager extends Controller {
 
     public void showMainMenu() {
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("1: shop");
-        strings.add("2: bank");
-        strings.add("3: park");
-        String[] valid = {"1", "2", "3"};
-        this.view.showMenu("Main menu", strings, valid);
+        strings.add("1: Accéder au magasin");
+        strings.add("2: Accéder à la banque");
+        strings.add("3: Accéder au parc '" + Park.getInstance().getName() + "'");
+        strings.add("Q: Quitter le programme");
+        String[] valid = {"1", "2", "3", "Q", "q"};
+        String action = this.view.showMenu("Main menu", strings, valid);
+        switch (action) {
+            case "1":
+                this.showShopMenu();
+                break;
+            case "2":
+                this.showBankMenu();
+                break;
+            case "3":
+                this.showParkMenu();
+                break;
+            case "Q":
+            case "q":
+                this.quitProgram();
+                break;
+        }
+    }
+
+    private void showBankMenu() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("1: Voir l'argent disponible");
+        strings.add("2: Effectuer un emprunt");
+        strings.add("3: Voir le statut de l'emprunt");
+        strings.add("4: Rembourser l'emprunt");
+        strings.add("R: Retour");
+        String[] valid = {"1", "2", "3", "4", "R", "r"};
+        String action = this.view.showMenu("Banque des parcs", strings, valid);
+        this.view.separator();
+        switch (action) {
+            case "1":
+                this.view.print("Argent disponible : " + Park.getInstance().getMoney());
+                this.view.waitEnter();
+                break;
+            case "2":
+                double amount = Double.parseDouble(this.view.prompt("Somme d'argent à emprunter (max " + Bank.getInstance().getMaxAmount() + "€)"));
+                String result = (String) this.executeAction("Bank.takeLoan", amount);
+                if ("OK".equals(result)) {
+                    this.view.print("Argent disponible : " + Park.getInstance().getMoney());
+                } else {
+                    this.view.print(result);
+                }
+                this.view.waitEnter();
+                break;
+            case "3":
+                this.view.print((String)this.executeAction("Bank.getLoanStatus", null));
+                this.view.waitEnter();
+                break;
+            case "4":
+                this.view.print((String)this.executeAction("Bank.payLoan", null));
+                this.view.waitEnter();
+                break;
+            case "R":
+            case "r":
+                this.showMainMenu();
+                return;
+        }
+        showBankMenu();
+    }
+
+    private void showShopMenu() {
+
+    }
+
+    private void showParkMenu() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("1: Ouvrir le parc");
+        strings.add("2: Voir les finances du parc");
+        strings.add("3: Lister les attractions installées");
+        strings.add("R: Retour");
+        String[] valid = {"1", "2", "3", "R", "r"};
+        String action = this.view.showMenu(Park.getInstance().getName(), strings, valid);
+        switch (action) {
+            case "1":
+                //TODO
+                break;
+            case "2":
+                //TODO
+                break;
+            case "3":
+                //TODO
+                break;
+            case "R":
+            case "r":
+                this.showMainMenu();
+                break;
+        }
+    }
+
+    private void quitProgram() {
+        this.view.print("Merci d'avoir joué !");
+        System.exit(0);
     }
 }

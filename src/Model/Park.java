@@ -389,4 +389,7 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
+    public String getName() {
+        return name;
+    }
 }

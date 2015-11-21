@@ -66,7 +66,7 @@ public class Bank extends Model {
                 this.loaningAmount = amount;
                 this.loaningDay    = Park.getInstance().getDay();
                 Park.getInstance().addMoney(amount);
-                message = "Accepté";
+                message = "OK";
             }
         }
         return message;
@@ -110,5 +110,9 @@ public class Bank extends Model {
                 ", loaningAmount=" + loaningAmount +
                 ", maxAmount=" + maxAmount +
                 '}';
+    }
+
+    public double getMaxAmount() {
+        return maxAmount;
     }
 }
