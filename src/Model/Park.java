@@ -180,12 +180,12 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Function clean()
      * Try to clean all the park
-     * @throws Exception
+     *@return message
      */
     @Override
-    public void clean() throws Exception {
+    public String clean() {
         if (status == true)
-            throw new Exception("Vous devez fermer le parc pour procéder au nettoyage !!!");
+            return "Vous devez fermer le parc pour procéder au nettoyage !!!";
 
         // for each area
         for (Area area : areas) {
@@ -194,6 +194,8 @@ public class Park extends Model implements IOpenable, ICleanable {
         }
 
         this.cleanLevel = clean;
+
+        return "Parc nettoyé :)";
     }
 
 
@@ -209,34 +211,40 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Add an area in the park
      * @param area
+     * @return message
      */
-    public void addArea(Area area) throws Exception {
+    public String addArea(Area area) {
 
         if(!has_space())
-            throw new Exception("Vous n'avez pas assez de place pour ajouter une nouvelle zone !");
+            return "Vous n'avez pas assez de place pour ajouter une nouvelle zone !";
 
         if(this.areas.contains(area))
-            throw new Exception("Vous ne pouvez pas ajouter plusieurs fois la même zone !");
+            return "Vous ne pouvez pas ajouter plusieurs fois la même zone !";
 
         this.freeSpace -= areaSize;
         this.areas.add(area);
+
+        return "Zone ajoutée :)";
     }
 
 
     /**
      * Remove an area in the park
      * @param area
+     * @return message
      */
-    public void removeArea(Area area) throws Exception {
+    public String removeArea(Area area) {
 
         if(!areas.contains(area))
-            throw new Error("Vous ne pouvez pas supprimer une zone qui n'existe pas !");
+            return "Vous ne pouvez pas supprimer une zone qui n'existe pas !";
 
         if(!area.Attractions.isEmpty())
-            throw new Error("Vous ne pouvez pas supprimer une zone qui n'est pas vide !");
+            return "Vous ne pouvez pas supprimer une zone qui n'est pas vide !";
 
         this.freeSpace += areaSize;
         areas.remove(area);
+
+        return "Zone supprimée :)";
     }
 
 
@@ -521,6 +529,15 @@ public class Park extends Model implements IOpenable, ICleanable {
 
     }
 
+
+
+
+    public boolean is_in_stock(Attraction attraction) {
+        if(stock.contains(attraction))
+            return true;
+
+        return false;
+    }
 
 
 

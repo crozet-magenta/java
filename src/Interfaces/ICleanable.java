@@ -13,7 +13,12 @@ public interface ICleanable {
      */
     public boolean is_clean();
 
-    public void clean() throws Exception;
+
+    /**
+     * clean method
+     * @return message
+     */
+    public String clean();
 
 
 }

@@ -11,5 +11,14 @@ public class Child extends Attraction {
     public Child() {
     }
 
-
+    /**
+     * Parameter constructor
+     * @param name
+     * @param minAge
+     * @param maxAge
+     * @param price
+     */
+    public Child(String name, int minAge, int maxAge, double price) {
+        super(name, minAge, maxAge, price);
+    }
 }

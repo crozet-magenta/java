@@ -62,17 +62,29 @@ public class Shop extends Model {
         return INSTANCE;
     }
 
+
+    /**
+     * Return list of attractions
+     * @return ArrayList<String>
+     */
     public ArrayList<String> attractionList() {
         return this.attractionList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
     }
 
+
+    /**
+     * Return list of areas
+     * @return ArrayList<String>
+     */
     public ArrayList<String> areaList() {
         return this.areaList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
     }
 
 
     /**
-     * 
+     * Buy an attraction
+     * @param id
+     * @return String
      */
     public String buyAttraction(int id) {
         Attraction attraction = this.attractionList.get(id);
@@ -88,8 +100,11 @@ public class Shop extends Model {
         return message;
     }
 
+
     /**
-     *
+     * Buy an area
+     * @param id
+     * @return String
      */
     public String buyArea(int id) {
         Area area = this.areaList.get(id);
@@ -108,11 +123,18 @@ public class Shop extends Model {
         return message;
     }
 
+
     /**
-     * 
+     * Sell an attraction
+     * @param id
+     * @return double
      */
     public double sell(int id) {
-        Attraction attraction = Park.getInstance().getStock().get(id);
+        Attraction attraction = Park.getInstance().findAttractionById(id);
+
+        if(attraction == null)
+            return 0;
+
         double value = attraction.price * this.sellPrice;
         Park.getInstance().removeFromStock(attraction);
         Park.getInstance().addMoney(value);

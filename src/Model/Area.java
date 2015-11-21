@@ -66,7 +66,9 @@ public class Area extends Model {
     }
 
 
-
+    /**
+     * Initialize AttractionTypes
+     */
     private void initAttractionTypes() {
         AttractionTypes.put(AQUATIC, "Aquatic");
         AttractionTypes.put(CAROUSEL, "Carousel");
@@ -132,34 +134,58 @@ public class Area extends Model {
     /**
      * Install an attraction in area
      * @param attraction
+     * @return String
      */
-    public void install(Attraction attraction) throws Exception {
+    public String install(Attraction attraction) {
 
         if(!has_space())
-            throw new Exception("Vous n'avez pas assez de place pour installer une nouvelle attraction !");
+            return "Vous n'avez pas assez de place pour installer une nouvelle attraction !";
 
         if(!is_type(attraction))
-            throw new Exception("Votre attraction n'est pas du type : " + AttractionTypes.get(type));
+            return "Votre attraction n'est pas du type : " + AttractionTypes.get(type);
 
         if(Attractions.contains(attraction))
-            throw new Exception("Vous ne pouvez pas installer plusieurs fois la même attraction !");
+            return "Vous ne pouvez pas installer plusieurs fois la même attraction !";
 
-        this.freeSpace -= attractionSize;
-        Attractions.add(attraction);
+
+        if(!Park.getInstance().is_in_stock(attraction)) {
+            return "Vous n'avez pas acheté cette attraction ! (NotFound in stock)";
+        }
+
+        if(Attractions.add(attraction)) {
+            this.freeSpace -= attractionSize;
+            Park.getInstance().removeFromStock(attraction);
+            return "Attraction installée :)";
+        }
+
+
+        return null;
     }
 
 
     /**
      * Uninstall an attraction in area
      * @param attraction
+     * @return String
      */
-    public void uninstall(Attraction attraction) throws Exception {
+    public String uninstall(Attraction attraction) {
+
+
+        if(attraction.is_open())
+            attraction.close();
 
         if(!Attractions.contains(attraction))
-            throw new Exception("Impossible de supprimer une attraction qui n'est pas installée !");
+            return "Impossible de supprimer une attraction qui n'est pas installée !";
 
-        this.freeSpace += attractionSize;
-        Attractions.remove(attraction);
+
+        if(Attractions.remove(attraction)) {
+            this.freeSpace += attractionSize;
+            Park.getInstance().appendToStock(attraction);
+            return "Attraction désinstallée :)";
+        }
+
+
+        return null;
     }
 
 

@@ -12,4 +12,14 @@ public class RollerCoaster extends Attraction {
     }
 
 
+    /**
+     * Parameter constructor
+     * @param name
+     * @param minAge
+     * @param maxAge
+     * @param price
+     */
+    public RollerCoaster(String name, int minAge, int maxAge, double price) {
+        super(name, minAge, maxAge, price);
+    }
 }
