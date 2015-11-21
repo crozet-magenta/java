@@ -102,8 +102,12 @@ public class Manager extends Controller {
         super.addModel(m);
     }
 
-    @Override
-    public void addView(View v) {
-        super.addView(v);
+    public void showMainMenu() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("1: shop");
+        strings.add("2: bank");
+        strings.add("3: park");
+        String[] valid = {"1", "2", "3"};
+        this.view.showMenu("Main menu", strings, valid);
     }
 }

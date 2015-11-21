@@ -20,15 +20,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
-        System.out.println(APP_NAME + " - V" + VERSION + "\n\n");
+        /**
+         * Views
+         **/
+        App app = new App();
+
+
+        app.debug(APP_NAME + " - V" + VERSION + "\n\n");
 
         Park park = Park.getInstance();
 
-        System.out.print("Nom du parc : ");
-
-        Scanner sc = new Scanner(System.in);
-
-        park.setName(sc.nextLine());
+        park.setName(app.prompt("Nom du parc"));
 
 
 
@@ -70,13 +72,6 @@ public class Main {
 
 
 
-        /**
-         * Views
-         **/
-        App app = new App();
-
-
-
         // Links models to controller
 //        manager.addModel(aquatic);
 //        manager.addModel(carousel);
@@ -86,12 +81,6 @@ public class Main {
         manager.addModel(shop);
         manager.addModel(bank);
         manager.addModel(area);
-
-
-
-        // Link view to controller
-        manager.addView(app);
-
 
         /**
          * Put code Here
@@ -116,8 +105,7 @@ public class Main {
         app.debug(manager.executeAction("Bank.getLoanStatus", null));
         app.debug(manager.executeAction("Park.getMoney", null));
 
-
-
+        manager.showMainMenu();
     } //main()
 
 } //Main
