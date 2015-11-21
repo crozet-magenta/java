@@ -66,7 +66,13 @@ public class Shop extends Model {
     }
 
     public ArrayList<String> areaList() {
-        return this.areaList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> data = new ArrayList<>();
+        int i = 1;
+        for (Area item : this.areaList) {
+            data.add("" + i + ": " + item.getType() + "(" + item.price + "€)");
+            i+=1;
+        }
+        return data;
     }
 
 
@@ -97,7 +103,7 @@ public class Shop extends Model {
 
         if (park.pickMoney(area.price)) {
             if (park.appendToAreas(area)) {
-                message = "Acheté :)";
+                message = "OK";
             }else {
                 message = "Plus de place :'(";
             }

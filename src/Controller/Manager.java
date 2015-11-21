@@ -37,7 +37,7 @@ public class Manager extends Controller {
     private static ArrayList<String> actionVisitor;
 
     /**
-     * 
+     * @deprecated
      */
     public <T> Object executeAction(String query, T params) {
         String model  = query.split("[.]")[0];
@@ -107,9 +107,10 @@ public class Manager extends Controller {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("1: Accéder au magasin");
         strings.add("2: Accéder à la banque");
-        strings.add("3: Accéder au parc '" + Park.getInstance().getName() + "'");
+        strings.add("3: Accéder à la gestion du parc '" + Park.getInstance().getName() + "'");
+        strings.add("4: Visiter le parc '" + Park.getInstance().getName() + "'");
         strings.add("Q: Quitter le programme");
-        String[] valid = {"1", "2", "3", "Q", "q"};
+        String[] valid = {"1", "2", "3", "4", "Q", "q"};
         String action = this.view.showMenu("Main menu", strings, valid);
         switch (action) {
             case "1":
@@ -121,9 +122,31 @@ public class Manager extends Controller {
             case "3":
                 this.showParkMenu();
                 break;
+            case "4":
+                if (!Park.getInstance().is_open()) {
+                    this.view.print("Le parc est fermé !");
+                    this.view.waitEnter();
+                    this.showMainMenu();
+                } else {
+                    this.showVisitorMenu();
+                }
+                break;
             case "Q":
             case "q":
                 this.quitProgram();
+                break;
+        }
+    }
+
+    private void showVisitorMenu() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("R: Retour");
+        String[] valid = {"R", "r"};
+        String action = this.view.showMenu("TODO", strings, valid);
+        switch (action) {
+            case "R":
+            case "r":
+                this.showMainMenu();
                 break;
         }
     }
@@ -164,12 +187,69 @@ public class Manager extends Controller {
             case "R":
             case "r":
                 this.showMainMenu();
-                return;
+                break;
         }
         showBankMenu();
     }
 
     private void showShopMenu() {
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("1: Acheter attraction");
+        strings.add("2: Vendre attraction");
+        strings.add("3: Acheter zone");
+        strings.add("R: Retour");
+        String[] valid = {"1", "2", "3", "R", "r"};
+        String action = this.view.showMenu("Magasin du parc (argent restant : " + Park.getInstance().getMoney() + "€)", strings, valid);
+        switch (action) {
+            case "1":
+                this.showShopBuyAttractionMenu();
+                break;
+            case "2":
+                this.showShopSellAttractionMenu();
+                break;
+            case "3":
+                this.showShopAreaMenu();
+                break;
+            case "R":
+            case "r":
+                this.showMainMenu();
+                break;
+        }
+    }
+
+    private void showShopAreaMenu() {
+        ArrayList<String> strings = Shop.getInstance().areaList();
+        strings.add("R: Retour");
+        String[] valid = {"1", "2", "3", "4", "5", "R", "r"};
+        String action = this.view.showMenu("Acheter des zones (argent restant : " + Park.getInstance().getMoney() + "€)", strings, valid);
+        switch (action) {
+            case "1":
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+
+                String result = Shop.getInstance().buyArea(Integer.parseInt(action)-1);
+                if ("OK".equals(result)) {
+                    this.view.print("Argent disponible : " + Park.getInstance().getMoney());
+                } else {
+                    this.view.print(result);
+                }
+                this.view.waitEnter();
+                break;
+            case "R":
+            case "r":
+                this.showShopMenu();
+                break;
+        }
+        this.showShopAreaMenu();
+    }
+
+    private void showShopSellAttractionMenu() {
+
+    }
+
+    private void showShopBuyAttractionMenu() {
 
     }
 

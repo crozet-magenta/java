@@ -392,4 +392,8 @@ public class Park extends Model implements IOpenable, ICleanable {
     public String getName() {
         return name;
     }
+
+    public boolean is_open() {
+        return status;
+    }
 }

@@ -75,6 +75,9 @@ public class Area extends Model {
         AttractionTypes.put("5", "RollerCoaster");
     }
 
+    public String getType() {
+        return this.AttractionTypes.get(Integer.toString(this.type));
+    }
 
 
     /**
