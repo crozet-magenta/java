@@ -47,9 +47,9 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
 
     /**
      * Attraction status (0 : closed | 1 : open )
-     * Default open
+     * Default close
      */
-    private boolean status = true;
+    private boolean status = false;
 
 
 
@@ -59,6 +59,14 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
     public Attraction() {
     }
 
+
+    /**
+     * Attraction constructor
+     * @param name
+     * @param minAge
+     * @param maxAge
+     * @param price
+     */
     public Attraction(String name, int minAge, int maxAge, double price) {
         this.name = name;
         this.minAge = minAge;
@@ -112,9 +120,14 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
      * Clean the attraction
      */
     @Override
-    public void clean() {
-        if(Park.getInstance().pickMoney(cleanPrice))
+    public String clean() {
+        if(Park.getInstance().pickMoney(cleanPrice)) {
+            this.close();
             this.cleanLevel = clean;
+            this.open();
+        }
+
+        return null;
     }
 
 
@@ -128,4 +141,25 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
                 ", name='" + name + '\'' +
                 '}';
     }
+
+
+    /**
+     * Return attraction name
+     * @return String
+     */
+    public String getName() {
+        return name;
+    }
+
+
+    /**
+     * Check if attraction is opened
+     * @return boolean
+     */
+    public boolean is_open() {
+        return status == true;
+    }
+
+
+
 }

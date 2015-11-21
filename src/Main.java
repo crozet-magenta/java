@@ -86,11 +86,36 @@ public class Main {
          * Put code Here
          */
 
+        park.addArea(area);
+        //park.addArea(area);
+        //app.debug(manager.executeAction("Shop.buyArea", 1));
+        //app.debug(manager.executeAction("park.findFreeAreaByType", 1));
+
         Park.getInstance().setDay(1);
         app.debug(manager.executeAction("Park.getMoney", null));
         app.debug(manager.executeAction("Bank.takeLoan", (double)5000));
         app.debug(manager.executeAction("Park.getMoney", null));
-        app.debug(manager.executeAction("Shop.buyAttraction", 1));
+        app.debug(manager.executeAction("Shop.buyAttraction", 3));
+
+
+
+
+        Attraction aqua = park.findAttractionById(0);
+
+        Area a2 = park.findFreeAreaByType(1);
+
+        a2.install(aqua);
+
+        app.debug("AQUATICS = " + park.findAreasByType(1));
+
+        //app.debug(manager.executeAction("Park.findFreeAreaByType", 1));
+
+
+        //app.debug(manager.executeAction("Park.findAttractionByName", "Manège pour adultes"));
+
+        //app.debug(manager.executeAction("Park.findAttractionById", 0));
+
+        //app.debug("[STOCK]" + manager.executeAction("Park.showStock", null));
 
         Park.getInstance().setDay(10);
         app.debug(manager.executeAction("Park.getMoney", null));

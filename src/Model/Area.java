@@ -20,7 +20,7 @@ public class Area extends Model {
     /**
      * Define all types of attractions
      */
-    private Map<String, String> AttractionTypes = new HashMap<String, String>();
+    private Map<Integer, String> AttractionTypes = new HashMap<Integer, String>();
 
     /**
      * Area type (Aquatic, Carousel, Child, DropTower, RollerCoaster)
@@ -66,13 +66,15 @@ public class Area extends Model {
     }
 
 
-
+    /**
+     * Initialize AttractionTypes
+     */
     private void initAttractionTypes() {
-        AttractionTypes.put("1", "Aquatic");
-        AttractionTypes.put("2", "Carousel");
-        AttractionTypes.put("3", "Child");
-        AttractionTypes.put("4", "DropTower");
-        AttractionTypes.put("5", "RollerCoaster");
+        AttractionTypes.put(AQUATIC, "Aquatic");
+        AttractionTypes.put(CAROUSEL, "Carousel");
+        AttractionTypes.put(CHILD, "Child");
+        AttractionTypes.put(DROP_TOWER, "DropTower");
+        AttractionTypes.put(ROLLER_COASTER, "RollerCoaster");
     }
 
     public String getType() {
@@ -84,7 +86,7 @@ public class Area extends Model {
      * Check if there is enough free space to install new attraction
      * @return boolean
      */
-    private boolean has_space() {
+    public boolean has_space() {
         return freeSpace >= attractionSize;
     }
 
@@ -135,34 +137,58 @@ public class Area extends Model {
     /**
      * Install an attraction in area
      * @param attraction
+     * @return String
      */
-    public void install(Attraction attraction) throws Exception {
+    public String install(Attraction attraction) {
 
         if(!has_space())
-            throw new Exception("Vous n'avez pas assez de place pour installer une nouvelle attraction !");
+            return "Vous n'avez pas assez de place pour installer une nouvelle attraction !";
 
         if(!is_type(attraction))
-            throw new Exception("Votre attraction n'est pas du type : " + AttractionTypes.get(Integer.toString(type)));
+            return "Votre attraction n'est pas du type : " + AttractionTypes.get(type);
 
         if(Attractions.contains(attraction))
-            throw new Exception("Vous ne pouvez pas installer plusieurs fois la même attraction !");
+            return "Vous ne pouvez pas installer plusieurs fois la même attraction !";
 
-        this.freeSpace -= attractionSize;
-        Attractions.add(attraction);
+
+        if(!Park.getInstance().is_in_stock(attraction)) {
+            return "Vous n'avez pas acheté cette attraction ! (NotFound in stock)";
+        }
+
+        if(Attractions.add(attraction)) {
+            this.freeSpace -= attractionSize;
+            Park.getInstance().removeFromStock(attraction);
+            return "Attraction installée :)";
+        }
+
+
+        return null;
     }
 
 
     /**
      * Uninstall an attraction in area
      * @param attraction
+     * @return String
      */
-    public void uninstall(Attraction attraction) throws Exception {
+    public String uninstall(Attraction attraction) {
+
+
+        if(attraction.is_open())
+            attraction.close();
 
         if(!Attractions.contains(attraction))
-            throw new Exception("Impossible de supprimer une attraction qui n'est pas installée !");
+            return "Impossible de supprimer une attraction qui n'est pas installée !";
 
-        this.freeSpace += attractionSize;
-        Attractions.remove(attraction);
+
+        if(Attractions.remove(attraction)) {
+            this.freeSpace += attractionSize;
+            Park.getInstance().appendToStock(attraction);
+            return "Attraction désinstallée :)";
+        }
+
+
+        return null;
     }
 
 
@@ -216,6 +242,35 @@ public class Area extends Model {
             // show attraction
             System.out.println(attraction.toString());
         }
+    }
+
+
+    /**
+     * Open attractions in current area
+     */
+    public void openAttractions() {
+        for (Attraction attraction : Attractions) {
+            attraction.open();
+        }
+    }
+
+
+    /**
+     * Close attractions in current area
+     */
+    public void closeAttractions() {
+        for (Attraction attraction : Attractions) {
+            attraction.close();
+        }
+    }
+
+
+    /**
+     * Return area type (Aquatic, Carousel, ...)
+     * @return int
+     */
+    public int getType() {
+        return type;
     }
 
     @Override

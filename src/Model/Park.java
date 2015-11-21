@@ -12,7 +12,7 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Name of the Park
      */
-    private String name;
+    private String name = "Theme-Park";
 
     /**
      * Park status (0 : closed | 1 : open )
@@ -180,12 +180,12 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Function clean()
      * Try to clean all the park
-     * @throws Exception
+     *@return message
      */
     @Override
-    public void clean() throws Exception {
+    public String clean() {
         if (status == true)
-            throw new Exception("Vous devez fermer le parc pour procéder au nettoyage !!!");
+            return "Vous devez fermer le parc pour procéder au nettoyage !!!";
 
         // for each area
         for (Area area : areas) {
@@ -194,6 +194,8 @@ public class Park extends Model implements IOpenable, ICleanable {
         }
 
         this.cleanLevel = clean;
+
+        return "Parc nettoyé :)";
     }
 
 
@@ -209,48 +211,59 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Add an area in the park
      * @param area
+     * @return message
      */
-    public void addArea(Area area) throws Exception {
+    public String addArea(Area area) {
 
         if(!has_space())
-            throw new Exception("Vous n'avez pas assez de place pour ajouter une nouvelle zone !");
+            return "Vous n'avez pas assez de place pour ajouter une nouvelle zone !";
 
         if(this.areas.contains(area))
-            throw new Exception("Vous ne pouvez pas ajouter plusieurs fois la même zone !");
+            return "Vous ne pouvez pas ajouter plusieurs fois la même zone !";
 
         this.freeSpace -= areaSize;
         this.areas.add(area);
+
+        return "Zone ajoutée :)";
     }
 
 
     /**
      * Remove an area in the park
      * @param area
+     * @return message
      */
-    public void removeArea(Area area) throws Exception {
+    public String removeArea(Area area) {
 
         if(!areas.contains(area))
-            throw new Exception("Vous ne pouvez pas supprimer une zone qui n'existe pas !");
+            return "Vous ne pouvez pas supprimer une zone qui n'existe pas !";
+
+        if(!area.Attractions.isEmpty())
+            return "Vous ne pouvez pas supprimer une zone qui n'est pas vide !";
 
         this.freeSpace += areaSize;
         areas.remove(area);
+
+        return "Zone supprimée :)";
     }
 
 
     /**
-     * Open the park
+     * Open the park and attractions
      */
     @Override
     public void open() {
+        openAllAttractions();
         this.status = true;
     }
 
 
     /**
-     * Close the park
+     * Close the park and attractions
      */
     @Override
     public void close() {
+        closeAllAttractions();
         this.status = false;
     }
 
@@ -396,4 +409,143 @@ public class Park extends Model implements IOpenable, ICleanable {
     public boolean is_open() {
         return status;
     }
+    /**
+     * Open all installed attractions
+     */
+    public void openAllAttractions() {
+
+        if(areas.isEmpty())
+            return;
+
+        for(Area area : areas) {
+
+            area.openAttractions();
+
+        }
+    }
+
+
+    /**
+     * Close all installed attractions
+     */
+    public void closeAllAttractions() {
+
+        if(areas.isEmpty())
+            return;
+
+        for(Area area : areas) {
+
+            area.closeAttractions();
+
+        }
+    }
+
+
+    /**
+     * Search by name attraction in stock
+     * @param name
+     * @return Attraction || null
+     */
+    public Attraction findAttractionByName(String name) {
+
+        if(stock.isEmpty())
+            return null;
+
+        // for each attraction
+        for (Attraction a : stock) {
+
+            if(a.getName().equals(name))
+                return a;
+
+        }
+
+        return null;
+    }
+
+
+
+    /**
+     * Search by id attraction in stock
+     * @param id
+     * @return Attraction || null
+     */
+    public Attraction findAttractionById(int id) {
+
+        if(stock.isEmpty())
+            return null;
+
+        if(stock.get(id) != null)
+            return stock.get(id);
+
+        return null;
+    }
+
+
+    /**
+     * Search by type list of Area in areas
+     * @param type
+     * @return ArrayList<Area> || null
+     */
+    public ArrayList<Area> findAreasByType(int type) {
+
+        if(areas.isEmpty())
+            return null;
+
+
+        ArrayList<Area> list = new ArrayList();
+
+        for(Area a : areas) {
+
+            if (a.getType() == type)
+                list.add(a);
+        }
+
+
+        if(list.isEmpty())
+            return null;
+
+
+        return list;
+    }
+
+
+    /**
+     * Search first area of Type which have freeSpace
+     * @param type
+     * @return Area || null
+     */
+    public Area findFreeAreaByType(int type) {
+
+        // Get list areas of Type
+        ArrayList<Area> list = findAreasByType(type);
+
+        // if no results
+        if(list.equals(null))
+            return null;
+
+        // find first with enough space
+        for(Area a : list) {
+
+            if(a.has_space())
+                return a;
+
+        }
+
+
+        return null;
+
+    }
+
+
+
+
+    public boolean is_in_stock(Attraction attraction) {
+        if(stock.contains(attraction))
+            return true;
+
+        return false;
+    }
+
+
+
 }

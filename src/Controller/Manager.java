@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  */
 public class Manager extends Controller {
 
@@ -84,6 +84,8 @@ public class Manager extends Controller {
         }
         return new Object();
     }
+
+
 
     /**
      * switch to Boss mode or Visitor mode
