@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
- * 
+ *
  */
 public class Manager extends Controller {
 
@@ -36,10 +36,10 @@ public class Manager extends Controller {
     private static ArrayList<String> actionVisitor;
 
     /**
-     * 
+     *
      */
     public <T> Object executeAction(String query, T params) {
-        String model  = query.split("[.]")[0];
+        String model = query.split("[.]")[0];
         String action = query.split("[.]")[1];
         Model modelClass;
 
@@ -54,7 +54,7 @@ public class Manager extends Controller {
                 modelClass = Park.getInstance();
                 break;
             default:
-                throw new Error("Classe inconnue");
+                throw new Error("Classe inconnue : ");
         }
 
         try {
@@ -67,6 +67,8 @@ public class Manager extends Controller {
                     m = modelClass.getClass().getMethod(action, double.class);
                 } else if (params.getClass() == java.lang.Integer.class) {
                     m = modelClass.getClass().getMethod(action, int.class);
+                } else if (params.getClass() == java.lang.String.class) {
+                    m = modelClass.getClass().getMethod(action, String.class);
                 } else {
                     m = modelClass.getClass().getMethod(action, double.class);
                 }
@@ -83,6 +85,8 @@ public class Manager extends Controller {
         }
         return new Object();
     }
+
+
 
     /**
      * switch to Boss mode or Visitor mode

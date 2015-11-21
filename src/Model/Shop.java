@@ -40,6 +40,7 @@ public class Shop extends Model {
         this.attractionList.add(new Carousel("Manège pour enfants", 3, 12, 1500));
         this.attractionList.add(new Carousel("Manège pour adultes", 18, 99, 2500));
         this.attractionList.add(new Carousel("Manège voitures", 7, 18, 2000));
+        this.attractionList.add(new Aquatic());
 
         this.areaList.add(new Area(Area.AQUATIC));
         this.areaList.add(new Area(Area.CAROUSEL));

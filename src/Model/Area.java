@@ -20,7 +20,7 @@ public class Area extends Model {
     /**
      * Define all types of attractions
      */
-    private Map<String, String> AttractionTypes = new HashMap<String, String>();
+    private Map<Integer, String> AttractionTypes = new HashMap<Integer, String>();
 
     /**
      * Area type (Aquatic, Carousel, Child, DropTower, RollerCoaster)
@@ -68,11 +68,11 @@ public class Area extends Model {
 
 
     private void initAttractionTypes() {
-        AttractionTypes.put("1", "Aquatic");
-        AttractionTypes.put("2", "Carousel");
-        AttractionTypes.put("3", "Child");
-        AttractionTypes.put("4", "DropTower");
-        AttractionTypes.put("5", "RollerCoaster");
+        AttractionTypes.put(AQUATIC, "Aquatic");
+        AttractionTypes.put(CAROUSEL, "Carousel");
+        AttractionTypes.put(CHILD, "Child");
+        AttractionTypes.put(DROP_TOWER, "DropTower");
+        AttractionTypes.put(ROLLER_COASTER, "RollerCoaster");
     }
 
 
@@ -81,7 +81,7 @@ public class Area extends Model {
      * Check if there is enough free space to install new attraction
      * @return boolean
      */
-    private boolean has_space() {
+    public boolean has_space() {
         return freeSpace >= attractionSize;
     }
 
@@ -139,7 +139,7 @@ public class Area extends Model {
             throw new Exception("Vous n'avez pas assez de place pour installer une nouvelle attraction !");
 
         if(!is_type(attraction))
-            throw new Exception("Votre attraction n'est pas du type : " + AttractionTypes.get(Integer.toString(type)));
+            throw new Exception("Votre attraction n'est pas du type : " + AttractionTypes.get(type));
 
         if(Attractions.contains(attraction))
             throw new Exception("Vous ne pouvez pas installer plusieurs fois la même attraction !");
@@ -213,6 +213,35 @@ public class Area extends Model {
             // show attraction
             System.out.println(attraction.toString());
         }
+    }
+
+
+    /**
+     * Open attractions in current area
+     */
+    public void openAttractions() {
+        for (Attraction attraction : Attractions) {
+            attraction.open();
+        }
+    }
+
+
+    /**
+     * Close attractions in current area
+     */
+    public void closeAttractions() {
+        for (Attraction attraction : Attractions) {
+            attraction.close();
+        }
+    }
+
+
+    /**
+     * Return area type (Aquatic, Carousel, ...)
+     * @return int
+     */
+    public int getType() {
+        return type;
     }
 
     @Override
