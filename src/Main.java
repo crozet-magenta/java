@@ -98,16 +98,24 @@ public class Main {
          */
 
         Park.getInstance().setDay(1);
-        app.debug(Bank.getInstance().takeLoan(8352.5));
+        app.debug(manager.executeAction("Park.getMoney", null));
+        app.debug(manager.executeAction("Bank.takeLoan", (double)5000));
+        app.debug(manager.executeAction("Park.getMoney", null));
+        app.debug(manager.executeAction("Shop.buyAttraction", 1));
 
         Park.getInstance().setDay(10);
-        app.debug(Bank.getInstance().getLoanStatus());
+        app.debug(manager.executeAction("Park.getMoney", null));
 
-        Park.getInstance().setDay(125);
-        app.debug(Bank.getInstance().getLoanStatus());
+        Park.getInstance().setDay(103);
+        app.debug(manager.executeAction("Bank.getLoanStatus", null));
 
-        app.debug(Bank.getInstance().payLoan());
-        app.debug(Bank.getInstance().getLoanStatus());
+        app.debug(manager.executeAction("Shop.sell", 0));
+        app.debug(manager.executeAction("Park.getMoney", null));
+
+        app.debug(manager.executeAction("Bank.payLoan", null));
+        app.debug(manager.executeAction("Bank.getLoanStatus", null));
+        app.debug(manager.executeAction("Park.getMoney", null));
+
 
 
     } //main()

@@ -60,7 +60,7 @@ public class Park extends Model implements IOpenable, ICleanable {
     /**
      * Park money
      */
-    private double money = 500000;
+    private double money = 4000;
 
 
     /**

@@ -1,9 +1,12 @@
 package Controller;
 
-import Model.Model;
+import Model.*;
 import View.View;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.awt.event.ActionEvent;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 /**
@@ -35,8 +38,50 @@ public class Manager extends Controller {
     /**
      * 
      */
-    public void executeAction() {
-        // TODO implement here
+    public <T> Object executeAction(String query, T params) {
+        String model  = query.split("[.]")[0];
+        String action = query.split("[.]")[1];
+        Model modelClass;
+
+        switch (model) {
+            case "Shop":
+                modelClass = Shop.getInstance();
+                break;
+            case "Bank":
+                modelClass = Bank.getInstance();
+                break;
+            case "Park":
+                modelClass = Park.getInstance();
+                break;
+            default:
+                throw new Error("Classe inconnue");
+        }
+
+        try {
+            Method m;
+            if (params == null) {
+                m = modelClass.getClass().getMethod(action);
+                return m.invoke(modelClass);
+            } else {
+                if (params.getClass() == java.lang.Double.class) {
+                    m = modelClass.getClass().getMethod(action, double.class);
+                } else if (params.getClass() == java.lang.Integer.class) {
+                    m = modelClass.getClass().getMethod(action, int.class);
+                } else {
+                    m = modelClass.getClass().getMethod(action, double.class);
+                }
+                return m.invoke(modelClass, params);
+            }
+        } catch (NoSuchMethodException e) {
+            System.out.print("[DEBUG]");
+            System.out.println(query);
+            System.out.print("[DEBUG]");
+            System.out.println(params.getClass());
+            throw new Error("Action inconnue");
+        } catch (InvocationTargetException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return new Object();
     }
 
     /**
