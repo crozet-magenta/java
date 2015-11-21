@@ -80,7 +80,7 @@ public class Shop extends Model {
         ArrayList<String> data = new ArrayList<>();
         int i = 1;
         for (Area item : this.areaList) {
-            data.add("" + i + ": " + item.getType() + "(" + item.price + "€)");
+            data.add("" + i + ": " + item.getTypeAsString() + "(" + item.price + "€)");
             i+=1;
         }
         return data;
