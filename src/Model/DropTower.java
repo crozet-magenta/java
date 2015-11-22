@@ -1,7 +1,7 @@
 package Model;
 
 /**
- *
+ * DropTower Attraction
  */
 public class DropTower extends Attraction {
 

@@ -1,7 +1,7 @@
 package Model;
 
 /**
- *
+ * RollerCoaster Attraction
  */
 public class RollerCoaster extends Attraction {
 

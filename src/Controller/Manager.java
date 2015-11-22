@@ -142,9 +142,7 @@ public class Manager extends Controller {
         }
     }
 
-    /**
-     * Shows the bank interface
-     */
+
     private void showBankMenu() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("1: Voir l'argent disponible");

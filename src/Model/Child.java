@@ -1,7 +1,7 @@
 package Model;
 
 /**
- *
+ * Child Attraction
  */
 public class Child extends Attraction {
 

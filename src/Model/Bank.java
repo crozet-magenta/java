@@ -1,11 +1,14 @@
 package Model;
 
+
 /**
  *
+ * Bank Model
  */
 public class Bank extends Model {
 
     /**
+     * Date of Loan
      * Bank instance (singleton)
      */
     private static Bank INSTANCE;
@@ -119,6 +122,10 @@ public class Bank extends Model {
                 '}';
     }
 
+    /**
+     * Get the max amount allowed
+     * @return double
+     */
     public double getMaxAmount() {
         return maxAmount;
     }

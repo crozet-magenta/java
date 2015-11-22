@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 
+/**
+ * Park Model
+ */
 public class Park extends Model implements IOpenable, ICleanable {
 
     /**
@@ -301,13 +304,6 @@ public class Park extends Model implements IOpenable, ICleanable {
             e.printStackTrace();
         }
 
-        /*if (this.areas.size() >= Park.getInstance().getSize()) {
-            return false;
-        } else {
-            this.areas.add(area);
-            return true;
-        }*/
-
         return false;
 
     }
@@ -507,9 +503,11 @@ public class Park extends Model implements IOpenable, ICleanable {
 
     }
 
+
     /**
-     * checks if the given attraction is in the stock
-     * @return true|false
+     * Check if attraction is in stock
+     * @param attraction
+     * @return boolean
      */
     public boolean is_in_stock(Attraction attraction) {
         if (stock.contains(attraction))
@@ -546,6 +544,11 @@ public class Park extends Model implements IOpenable, ICleanable {
         return data;
     }
 
+
+    /**
+     * Get the price to visit the park
+     * @return double
+     */
     public double getPrice() {
         return price;
     }

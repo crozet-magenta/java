@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Area Model
  */
 public class Area extends Model {
 

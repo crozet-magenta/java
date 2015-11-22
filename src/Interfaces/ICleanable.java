@@ -11,7 +11,7 @@ public interface ICleanable {
      *
      * @return boolean
      */
-    public boolean is_clean();
+    boolean is_clean();
 
 
     /**
@@ -19,7 +19,7 @@ public interface ICleanable {
      *
      * @return message
      */
-    public String clean();
+    String clean();
 
 
 }

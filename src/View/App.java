@@ -9,10 +9,13 @@ import java.util.Observable;
 import java.util.Scanner;
 
 /**
- * Created by jonathan on 18/11/15.
+ * App View
  */
 public class App extends View {
 
+    /**
+     * Default constructor
+     */
     public App() {
         super();
     }

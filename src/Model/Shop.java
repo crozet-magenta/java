@@ -3,7 +3,7 @@ package Model;
 import java.util.ArrayList;
 
 /**
- *
+ * Shop Model
  */
 public class Shop extends Model {
 
@@ -151,20 +151,6 @@ public class Shop extends Model {
         Park.getInstance().removeFromStock(attraction);
         Park.getInstance().addMoney(value);
         return value;
-    }
-
-    /**
-     *
-     */
-    public void sort() {
-        // TODO implement here
-    }
-
-    /**
-     *
-     */
-    public void extendPark() {
-        // TODO implement here
     }
 
 
