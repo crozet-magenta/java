@@ -1,28 +1,42 @@
 package Controller;
 
 import Model.*;
-import View.View;
-import com.sun.deploy.util.ArrayUtil;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
  *
  */
 public class Manager extends Controller {
+    /**
+     * App version
+     */
     public static final double VERSION = 0.3;
+
+    /**
+     * App name
+     */
     public static final String APP_NAME = "Theme Park";
 
+    /**
+     * Boss action list
+     */
+    private static ArrayList<String> actionsBoss;
+
+    /**
+     * Visitor action list
+     */
+    private static ArrayList<String> actionVisitor;
+
+    /**
+     * game mode (Boss | Visitor)
+     */
+    private int mode;
 
     /**
      * Default constructor
@@ -31,25 +45,10 @@ public class Manager extends Controller {
     }
 
     /**
-     * Boss action list
-     */
-    private static ArrayList<String> actionsBoss;
-
-    /**
-     * game mode (Boss | Visitor)
-     */
-    private int mode;
-
-    /**
-     * Visitor action list
-     */
-    private static ArrayList<String> actionVisitor;
-
-    /**
-     * @deprecated
+     * @deprecated This method works well but using it is useless as the normal call is a one liner
      */
     public <T> Object executeAction(String query, T params) {
-        String model  = query.split("[.]")[0];
+        String model = query.split("[.]")[0];
         String action = query.split("[.]")[1];
         Model modelClass;
 
@@ -95,6 +94,7 @@ public class Manager extends Controller {
     }
 
 
+
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -105,12 +105,23 @@ public class Manager extends Controller {
         super.addModel(m);
     }
 
+    /**
+     * init the app by displaying the app name & version and prompt teh park name
+     */
+    public void init() {
+        this.view.debug(APP_NAME + " - V" + VERSION);
+        Park.getInstance().setName(this.view.prompt("Nom du parc"));
+        this.showMainMenu();
+    }
+
+    /**
+     * Shows the app main menu
+     */
     private void showMainMenu() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("1: Accéder au magasin");
         strings.add("2: Accéder à la banque");
         strings.add("3: Accéder à la gestion du parc '" + Park.getInstance().getName() + "'");
-//        strings.add("4: Visiter le parc '" + Park.getInstance().getName() + "'");
         strings.add("Q: Quitter le programme");
         String[] valid = {"1", "2", "3", /*"4",*/ "Q", "q"};
         String action = this.view.showMenu("Main menu", strings, valid);
@@ -124,15 +135,6 @@ public class Manager extends Controller {
             case "3":
                 this.showParkMenu();
                 break;
-//            case "4":
-//                if (!Park.getInstance().is_open()) {
-//                    this.view.print("Le parc est fermé !");
-//                    this.view.waitEnter();
-//                    this.showMainMenu();
-//                } else {
-//                    this.showVisitorMenu();
-//                }
-//                break;
             case "Q":
             case "q":
                 this.quitProgram();
@@ -140,19 +142,9 @@ public class Manager extends Controller {
         }
     }
 
-//    private void showVisitorMenu() {
-//        ArrayList<String> strings = new ArrayList<>();
-//        strings.add("R: Retour");
-//        String[] valid = {"R", "r"};
-//        String action = this.view.showMenu("TODO", strings, valid);
-//        switch (action) {
-//            case "R":
-//            case "r":
-//                this.showMainMenu();
-//                break;
-//        }
-//    }
-
+    /**
+     * Shows the bank interface
+     */
     private void showBankMenu() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("1: Voir l'argent disponible");
@@ -194,6 +186,9 @@ public class Manager extends Controller {
         showBankMenu();
     }
 
+    /**
+     * Shows the shop main interface
+     */
     private void showShopMenu() {
         ArrayList<String> strings = new ArrayList<>();
         strings.add("1: Acheter attraction");
@@ -220,6 +215,9 @@ public class Manager extends Controller {
         }
     }
 
+    /**
+     * Shows the shop interface to buy park areas
+     */
     private void showShopAreaMenu() {
         ArrayList<String> strings = Shop.getInstance().areaList();
         strings.add("R: Retour");
@@ -232,7 +230,7 @@ public class Manager extends Controller {
             case "3":
             case "4":
             case "5":
-                String result = Shop.getInstance().buyArea(Integer.parseInt(action)-1);
+                String result = Shop.getInstance().buyArea(Integer.parseInt(action) - 1);
                 if ("OK".equals(result)) {
                     this.view.print("Argent disponible : " + Park.getInstance().getMoney());
                 } else {
@@ -248,6 +246,9 @@ public class Manager extends Controller {
         this.showShopAreaMenu();
     }
 
+    /**
+     * Shows the shop interface to sell attractions
+     */
     private void showShopSellAttractionMenu() {
         ArrayList<String> strings = Park.getInstance().stockList();
         String[] range = this.generateRange(1, strings.size());
@@ -264,23 +265,16 @@ public class Manager extends Controller {
                 this.showShopMenu();
                 break;
             default:
-               if (Shop.getInstance().sell(Integer.parseInt(action)-1) != 0) {
-                   this.view.print("Vendu");
-               }
+                if (Shop.getInstance().sell(Integer.parseInt(action) - 1) != 0) {
+                    this.view.print("Vendu");
+                }
         }
         this.showShopSellAttractionMenu();
     }
 
-    private String[] generateRange(int start, int stop) {
-        String[] result = new String[(stop - start)+1];
-        int j = 0;
-        for (int i = start; i <= stop; i++) {
-            result[j] = Integer.toString(i);
-            j++;
-        }
-        return result;
-    }
-
+    /**
+     * Shows the shop interface to buy attractions
+     */
     private void showShopBuyAttractionMenu() {
         ArrayList<String> strings = Shop.getInstance().attractionList();
         String[] range = this.generateRange(1, strings.size());
@@ -297,28 +291,32 @@ public class Manager extends Controller {
                 this.showShopMenu();
                 break;
             default:
-                this.view.print(Shop.getInstance().buyAttraction(Integer.parseInt(action)-1));
+                this.view.print(Shop.getInstance().buyAttraction(Integer.parseInt(action) - 1));
                 this.view.waitEnter();
         }
         this.showShopBuyAttractionMenu();
     }
 
+    /**
+     * Shows the main interface to manage the park
+     */
     private void showParkMenu() {
         ArrayList<String> strings = new ArrayList<>();
-        strings.add("1: Ouvrir/fermer le parc " + (Park.getInstance().is_open()?"(ouvert)":"(fermé)"));
+        strings.add("1: Ouvrir/fermer le parc " + (Park.getInstance().is_open() ? "(ouvert)" : "(fermé)"));
         strings.add("2: Changer le prix d'entrée (" + Park.getInstance().getPrice() + "€)");
         strings.add("3: Lister les zones disponibles");
         strings.add("4: Lister les attractions installées");
         strings.add("5: Lister les attractions en stock");
         strings.add("6: Installer des attractions");
         strings.add("7: Désinstaller des attractions");
+        strings.add("8: Nettoyer le parc");
         strings.add("R: Retour");
-        String[] valid = {"1", "2", "3", "4", "5", "6", "7", "R", "r"};
+        String[] valid = {"1", "2", "3", "4", "5", "6", "7", "8", "R", "r"};
         String action = this.view.showMenu("Gestion du parc " + Park.getInstance().getName(), strings, valid);
         this.view.separator();
         switch (action) {
             case "1":
-                if (Park.getInstance().is_open()){
+                if (Park.getInstance().is_open()) {
                     Park.getInstance().close();
                     this.view.print("Parc fermé");
                 } else {
@@ -328,7 +326,7 @@ public class Manager extends Controller {
                 this.view.waitEnter();
                 break;
             case "2":
-                if (Park.getInstance().is_open()){
+                if (Park.getInstance().is_open()) {
                     this.view.print("Le parc doit être fermé pour effectuer cette action");
                 } else {
 
@@ -355,6 +353,10 @@ public class Manager extends Controller {
             case "7":
                 showParkUninstallAttractionMenu();
                 break;
+            case "8":
+                this.view.print(Park.getInstance().clean());
+                this.view.waitEnter();
+                break;
             case "R":
             case "r":
                 this.showMainMenu();
@@ -363,6 +365,9 @@ public class Manager extends Controller {
         showParkMenu();
     }
 
+    /**
+     * Shows the park interface to install attractions
+     */
     private void showParkInstallAttractionMenu() {
         ArrayList<String> strings = Park.getInstance().stockList();
         String[] range = this.generateRange(1, strings.size());
@@ -379,7 +384,7 @@ public class Manager extends Controller {
                 this.showParkMenu();
                 break;
             default:
-                Attraction attraction = Park.getInstance().getStock().get(Integer.parseInt(action)-1);
+                Attraction attraction = Park.getInstance().getStock().get(Integer.parseInt(action) - 1);
                 Area area = Park.getInstance().findFreeAreaByType(attraction.getType());
                 if (area == null) {
                     this.view.print("Pas de zone disponible !");
@@ -391,6 +396,9 @@ public class Manager extends Controller {
         this.showParkInstallAttractionMenu();
     }
 
+    /**
+     * Shows the park interface to uninstall attractions
+     */
     private void showParkUninstallAttractionMenu() {
         ArrayList<String> strings = Park.getInstance().InstalledList();
         String[] range = this.generateRange(1, strings.size());
@@ -407,7 +415,7 @@ public class Manager extends Controller {
                 this.showParkMenu();
                 break;
             default:
-                Attraction attraction = Park.getInstance().getInstalledAttractions().get(Integer.parseInt(action)-1);
+                Attraction attraction = Park.getInstance().getInstalledAttractions().get(Integer.parseInt(action) - 1);
                 Area area = Park.getInstance().findAreaContainsAttraction(attraction);
                 if (area == null) {
                     this.view.print("Attraction non trouvée");
@@ -420,15 +428,27 @@ public class Manager extends Controller {
     }
 
 
-
+    /**
+     * function to quit the app
+     */
     private void quitProgram() {
         this.view.print("Merci d'avoir joué !");
         System.exit(0);
     }
 
-    public void init() {
-        this.view.debug(APP_NAME + " - V" + VERSION);
-        Park.getInstance().setName(this.view.prompt("Nom du parc"));
-        this.showMainMenu();
+    /**
+     * function to generate a list of numbers within an interval
+     * @param start int the first number
+     * @param stop int the last number
+     * @return string[] the list generated as a string array
+     */
+    private String[] generateRange(int start, int stop) {
+        String[] result = new String[(stop - start) + 1];
+        int j = 0;
+        for (int i = start; i <= stop; i++) {
+            result[j] = Integer.toString(i);
+            j++;
+        }
+        return result;
     }
 }

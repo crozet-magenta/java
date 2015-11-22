@@ -11,8 +11,8 @@ public abstract class Model extends java.util.Observable {
     /**
      * Model constructor
      */
-	public Model() {} //Model()
-
+    public Model() {
+    } //Model()
 
 
 } //Model

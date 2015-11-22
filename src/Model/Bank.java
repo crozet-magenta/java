@@ -1,34 +1,33 @@
 package Model;
 
-import java.sql.Timestamp;
-
 /**
- * 
+ *
  */
 public class Bank extends Model {
-
-    /**
-     *
-     */
-    private int loaningDay;
-
-    /**
-     *
-     */
-    private double loaningAmount;
-
-    private double interest = 0.005;
-
-    /**
-     *
-     */
-    private double maxAmount = 50000;
-
 
     /**
      * Bank instance (singleton)
      */
     private static Bank INSTANCE;
+    /**
+     * date when the loan is taken
+     */
+    private int loaningDay;
+
+    /**
+     * amount of the loan
+     */
+    private double loaningAmount;
+
+    /**
+     * daily interest of the loan
+     */
+    private double interest = 0.005;
+
+    /**
+     * max loan amount
+     */
+    private double maxAmount = 500000;
 
 
     /**
@@ -42,10 +41,11 @@ public class Bank extends Model {
     /**
      * Function getInstance()
      * Singleton
+     *
      * @return INSTANCE
      */
     public static Bank getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new Bank();
 
         return INSTANCE;
@@ -53,7 +53,9 @@ public class Bank extends Model {
 
 
     /**
-     * 
+     * take loan of the given amount
+     * @param amount amount of the wanted loan
+     * @return OK if success, error message otherwise
      */
     public String takeLoan(double amount) {
         String message;
@@ -64,7 +66,7 @@ public class Bank extends Model {
                 message = "Vous avez déjà un prêt en cours";
             } else {
                 this.loaningAmount = amount;
-                this.loaningDay    = Park.getInstance().getDay();
+                this.loaningDay = Park.getInstance().getDay();
                 Park.getInstance().addMoney(amount);
                 message = "OK";
             }
@@ -73,7 +75,8 @@ public class Bank extends Model {
     }
 
     /**
-     * 
+     * pay the current loan
+     * @return status message
      */
     public String payLoan() {
         String message;
@@ -91,6 +94,10 @@ public class Bank extends Model {
         return message;
     }
 
+    /**
+     * Check the loan status
+     * @return status message
+     */
     public String getLoanStatus() {
         String message;
         if (this.loaningAmount == 0) {

@@ -1,21 +1,21 @@
 package Model;
 
-import org.w3c.dom.Attr;
-
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * 
+ *
  */
 public class Shop extends Model {
 
     /**
+     * Shop instance (singleton)
+     */
+    private static Shop INSTANCE;
+    private final double sellPrice = 0.5;
+    /**
      * Attraction list : contain available attractions
      */
     private ArrayList<Attraction> attractionList = new ArrayList<>();
-
     /**
      * AreaList list : contain available areas
      */
@@ -23,18 +23,10 @@ public class Shop extends Model {
 
 
     /**
-     * Shop instance (singleton)
-     */
-    private static Shop INSTANCE;
-
-    private final double sellPrice = 0.5;
-
-
-    /**
      * Default shop constructor
      */
     private Shop() {
-        /**
+        /*
          * ADD SOME ATTRACTIONS AND AREAS
          */
         this.attractionList.add(new Carousel("Manège pour enfants", 3, 12, 1500));
@@ -43,8 +35,6 @@ public class Shop extends Model {
         this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
         this.attractionList.add(new Aquatic("Bateau a voile", 18, 99, 2500));
         this.attractionList.add(new Aquatic("Ballade en mer", 3, 12, 2500));
-        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
-        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
 
         this.areaList.add(new Area(Area.AQUATIC));
         this.areaList.add(new Area(Area.CAROUSEL));
@@ -57,10 +47,11 @@ public class Shop extends Model {
     /**
      * Function getInstance()
      * Singleton
+     *
      * @return INSTANCE
      */
     public static Shop getInstance() {
-        if(INSTANCE == null)
+        if (INSTANCE == null)
             INSTANCE = new Shop();
 
         return INSTANCE;
@@ -69,14 +60,15 @@ public class Shop extends Model {
 
     /**
      * Return list of attractions
+     *
      * @return ArrayList<String>
      */
     public ArrayList<String> attractionList() {
         ArrayList<String> data = new ArrayList<>();
         int i = 1;
         for (Attraction item : this.attractionList) {
-            data.add("" + i + ": " + item.getName() + " - " + item.getClass().getSimpleName() + "("+ item.price +"€)");
-            i+=1;
+            data.add("" + i + ": " + item.getName() + " - " + item.getClass().getSimpleName() + "(" + item.price + "€)");
+            i += 1;
         }
         return data;
     }
@@ -84,6 +76,7 @@ public class Shop extends Model {
 
     /**
      * Return list of areas
+     *
      * @return ArrayList<String>
      */
     public ArrayList<String> areaList() {
@@ -91,7 +84,7 @@ public class Shop extends Model {
         int i = 1;
         for (Area item : this.areaList) {
             data.add("" + i + ": " + item.getTypeAsString() + "(" + item.price + "€)");
-            i+=1;
+            i += 1;
         }
         return data;
     }
@@ -99,7 +92,8 @@ public class Shop extends Model {
 
     /**
      * Buy an attraction
-     * @param id
+     *
+     * @param id int id of the attraction in the list
      * @return String
      */
     public String buyAttraction(int id) {
@@ -119,7 +113,8 @@ public class Shop extends Model {
 
     /**
      * Buy an area
-     * @param id
+     *
+     * @param id int id of the attraction in the list
      * @return String
      */
     public String buyArea(int id) {
@@ -130,7 +125,7 @@ public class Shop extends Model {
         if (park.pickMoney(area.price)) {
             if (park.appendToAreas(area)) {
                 message = "OK";
-            }else {
+            } else {
                 message = "Plus de place :'(";
             }
         } else {
@@ -142,13 +137,14 @@ public class Shop extends Model {
 
     /**
      * Sell an attraction
-     * @param id
+     *
+     * @param id int id of the attraction in the stock list
      * @return double
      */
     public double sell(int id) {
         Attraction attraction = Park.getInstance().findAttractionById(id);
 
-        if(attraction == null)
+        if (attraction == null)
             return 0;
 
         double value = attraction.price * this.sellPrice;
@@ -158,14 +154,14 @@ public class Shop extends Model {
     }
 
     /**
-     * 
+     *
      */
     public void sort() {
         // TODO implement here
     }
 
     /**
-     * 
+     *
      */
     public void extendPark() {
         // TODO implement here

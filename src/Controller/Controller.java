@@ -1,7 +1,7 @@
 package Controller;
 
 import Model.Model;
-import View.*;
+import View.App;
 
 /**
  * Abstract Class Controller
@@ -10,25 +10,27 @@ import View.*;
  */
 public abstract class Controller implements java.awt.event.ActionListener {
 
-	Model model;
-	App view = new App();
+    Model model;
+    App view = new App();
 
     /**
      * Controller constructor
      */
-	public Controller() {} //Controller()
+    public Controller() {
+    } //Controller()
 
 
-	public abstract void actionPerformed(java.awt.event.ActionEvent e); //actionPerformed()
+    public abstract void actionPerformed(java.awt.event.ActionEvent e); //actionPerformed()
 
 
     /**
      * Function addModel
      * Link the model associated to your controller
+     *
      * @param m model to link
      */
-	public void addModel(Model m){
-		this.model = m;
-	} //addModel()
+    public void addModel(Model m) {
+        this.model = m;
+    } //addModel()
 
 } // Controller

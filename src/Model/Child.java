@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * 
+ *
  */
 public class Child extends Attraction {
 
@@ -13,10 +13,11 @@ public class Child extends Attraction {
 
     /**
      * Parameter constructor
-     * @param name
-     * @param minAge
-     * @param maxAge
-     * @param price
+     *
+     * @param name name of the attraction
+     * @param minAge min age required to play
+     * @param maxAge max age authorized
+     * @param price price to buy the attraction
      */
     public Child(String name, int minAge, int maxAge, double price) {
         super(name, minAge, maxAge, price);
