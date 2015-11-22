@@ -1,13 +1,9 @@
 package Model;
 
-import org.w3c.dom.Attr;
-
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * 
+ * Shop Model
  */
 public class Shop extends Model {
 
@@ -155,20 +151,6 @@ public class Shop extends Model {
         Park.getInstance().removeFromStock(attraction);
         Park.getInstance().addMoney(value);
         return value;
-    }
-
-    /**
-     * 
-     */
-    public void sort() {
-        // TODO implement here
-    }
-
-    /**
-     * 
-     */
-    public void extendPark() {
-        // TODO implement here
     }
 
 

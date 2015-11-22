@@ -1,26 +1,28 @@
 package Model;
 
-import java.sql.Timestamp;
 
 /**
- * 
+ * Bank Model
  */
 public class Bank extends Model {
 
     /**
-     *
+     * Date of Loan
      */
     private int loaningDay;
 
     /**
-     *
+     * Amount of Loan
      */
     private double loaningAmount;
 
+    /**
+     * Interest rate
+     */
     private double interest = 0.005;
 
     /**
-     *
+     * Max amount allowed to loan
      */
     private double maxAmount = 50000;
 
@@ -53,7 +55,9 @@ public class Bank extends Model {
 
 
     /**
-     * 
+     * Get a loan of amount param
+     * @param amount
+     * @return String
      */
     public String takeLoan(double amount) {
         String message;
@@ -73,7 +77,8 @@ public class Bank extends Model {
     }
 
     /**
-     * 
+     * Pay back your loan
+     * @return String
      */
     public String payLoan() {
         String message;
@@ -91,6 +96,10 @@ public class Bank extends Model {
         return message;
     }
 
+    /**
+     * Informations about your loan
+     * @return String
+     */
     public String getLoanStatus() {
         String message;
         if (this.loaningAmount == 0) {
@@ -112,6 +121,10 @@ public class Bank extends Model {
                 '}';
     }
 
+    /**
+     * Get the max amount allowed
+     * @return double
+     */
     public double getMaxAmount() {
         return maxAmount;
     }

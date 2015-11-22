@@ -2,12 +2,14 @@ package Model;
 
 import Interfaces.ICleanable;
 import Interfaces.IOpenable;
-import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 
+/**
+ * Park Model
+ */
 public class Park extends Model implements IOpenable, ICleanable {
 
     /**
@@ -329,12 +331,12 @@ public class Park extends Model implements IOpenable, ICleanable {
 
 
     /**
-     * Please use addArea()
-     * @deprecated
+     * Equivalent of addArea, but returning boolean
+     * @param area
+     * @return boolean
      */
     public boolean appendToAreas(Area area) {
 
-        // Gitan
         try {
             addArea(area);
             return true;
@@ -342,19 +344,15 @@ public class Park extends Model implements IOpenable, ICleanable {
             e.printStackTrace();
         }
 
-        /*if (this.areas.size() >= Park.getInstance().getSize()) {
-            return false;
-        } else {
-            this.areas.add(area);
-            return true;
-        }*/
-
         return false;
 
     }
 
 
-
+    /**
+     * Removing an attraction in stock
+     * @param attraction
+     */
     public void removeFromStock(Attraction attraction) {
         this.stock.remove(attraction);
     }
@@ -538,8 +536,11 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
-
-
+    /**
+     * Check if attraction is in stock
+     * @param attraction
+     * @return boolean
+     */
     public boolean is_in_stock(Attraction attraction) {
         if(stock.contains(attraction))
             return true;
@@ -548,6 +549,10 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
+    /**
+     * List the stock
+     * @return ArrayList<String>
+     */
     public ArrayList<String> stockList() {
         ArrayList<String> data = new ArrayList<>();
         int i = 1;
@@ -558,6 +563,11 @@ public class Park extends Model implements IOpenable, ICleanable {
         return data;
     }
 
+
+    /**
+     * List installed attractions
+     * @return ArrayList<String>
+     */
     public ArrayList<String> InstalledList() {
         ArrayList<String> data = new ArrayList<>();
         int i = 1;
@@ -568,10 +578,20 @@ public class Park extends Model implements IOpenable, ICleanable {
         return data;
     }
 
+
+    /**
+     * Get the price to visit the park
+     * @return double
+     */
     public double getPrice() {
         return price;
     }
 
+
+    /**
+     * List all areas
+     * @return String
+     */
     public String listAreas() {
         String data = "Zones du parc :\n";
         for (Area item : this.areas) {
@@ -580,6 +600,12 @@ public class Park extends Model implements IOpenable, ICleanable {
         return data;
     }
 
+
+    /**
+     * List all attractions
+     * @param installed
+     * @return String
+     */
     public String listAttractions(boolean installed) {
         ArrayList<Attraction> data = installed?this.getInstalledAttractions():this.stock;
 
@@ -590,6 +616,11 @@ public class Park extends Model implements IOpenable, ICleanable {
         return list;
     }
 
+
+    /**
+     * Return installed attractions
+     * @return ArrayList<Attraction>
+     */
     public ArrayList<Attraction> getInstalledAttractions() {
         ArrayList<Attraction> list = new ArrayList<>();
         for (Area item : this.areas) {
@@ -598,6 +629,11 @@ public class Park extends Model implements IOpenable, ICleanable {
         return list;
     }
 
+    /**
+     * Return area containing param attraction
+     * @param attraction
+     * @return Area
+     */
     public Area findAreaContainsAttraction(Attraction attraction) {
         if(areas.isEmpty()) return null;
         for(Area a : areas) {

@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * 
+ * Carousel Attraction
  */
 public class Carousel extends Attraction {
 

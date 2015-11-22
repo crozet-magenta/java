@@ -7,8 +7,8 @@ package Interfaces;
  */
 public interface IOpenable {
 
-    public void open();
+    void open();
 
-    public void close();
+    void close();
 
 }

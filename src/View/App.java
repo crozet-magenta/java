@@ -6,13 +6,17 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by jonathan on 18/11/15.
+ * App View
  */
 public class App extends View {
 
+    /**
+     * Default constructor
+     */
     public App() {
         super();
     }
+
 
     @Override
     public void update(Observable obs, Object obj) {
@@ -24,6 +28,9 @@ public class App extends View {
 
     }
 
+    /**
+     * Clean the console
+     */
     public static void clearConsole()
     {
         try
@@ -42,24 +49,46 @@ public class App extends View {
         catch (final Exception e)
         {
             //  Handle any exceptions.
+            e.getMessage();
         }
     }
 
+    /**
+     * Test a function in debug mode
+     * @param data
+     * @param <T>
+     */
     public <T> void debug(T data) {
         System.out.print("[DEBUG]");
         System.out.println(data);
     }
 
+    /**
+     * Read input keyboard
+     * @param text
+     * @return String
+     */
     public String prompt(String text) {
         Scanner sc = new Scanner(System.in);
         System.out.print(text + " : ");
         return sc.nextLine();
     }
 
+    /**
+     * Show text
+     * @param text
+     */
     public void print(String text) {
         System.out.println(text);
     }
 
+    /**
+     * Show a menu
+     * @param title
+     * @param data
+     * @param valid
+     * @return String
+     */
     public String showMenu(String title, ArrayList<String> data, String[] valid) {
         String action;
         boolean err = false;
@@ -83,6 +112,10 @@ public class App extends View {
         return action;
     }
 
+    /**
+     * Function waitEnter()
+     * Attempt user to push enter
+     */
     public void waitEnter() {
         Console c = System.console();
         if (c != null) {
@@ -98,6 +131,10 @@ public class App extends View {
         }
     }
 
+    /**
+     * Function separator()
+     * show a separator in console
+     */
     public void separator() {
         print("___________________\n\n");
     }

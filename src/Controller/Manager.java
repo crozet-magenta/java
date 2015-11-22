@@ -1,19 +1,12 @@
 package Controller;
 
 import Model.*;
-import View.View;
-import com.sun.deploy.util.ArrayUtil;
-import org.omg.CORBA.DynAnyPackage.Invalid;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 /**
@@ -124,15 +117,6 @@ public class Manager extends Controller {
             case "3":
                 this.showParkMenu();
                 break;
-//            case "4":
-//                if (!Park.getInstance().is_open()) {
-//                    this.view.print("Le parc est fermé !");
-//                    this.view.waitEnter();
-//                    this.showMainMenu();
-//                } else {
-//                    this.showVisitorMenu();
-//                }
-//                break;
             case "Q":
             case "q":
                 this.quitProgram();
@@ -140,18 +124,6 @@ public class Manager extends Controller {
         }
     }
 
-//    private void showVisitorMenu() {
-//        ArrayList<String> strings = new ArrayList<>();
-//        strings.add("R: Retour");
-//        String[] valid = {"R", "r"};
-//        String action = this.view.showMenu("TODO", strings, valid);
-//        switch (action) {
-//            case "R":
-//            case "r":
-//                this.showMainMenu();
-//                break;
-//        }
-//    }
 
     private void showBankMenu() {
         ArrayList<String> strings = new ArrayList<>();

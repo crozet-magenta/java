@@ -1,7 +1,7 @@
 package Model;
 
 /**
- * 
+ * Aquatic Attraction
  */
 public class Aquatic extends Attraction {
 

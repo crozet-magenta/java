@@ -4,7 +4,7 @@ import Interfaces.ICleanable;
 import Interfaces.IOpenable;
 
 /**
- * 
+ * Attraction Model
  */
 public abstract class Attraction extends Model implements IOpenable, ICleanable {
 
