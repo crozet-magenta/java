@@ -29,12 +29,31 @@ public class Shop extends Model {
         /*
          * ADD SOME ATTRACTIONS AND AREAS
          */
+        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
+        this.attractionList.add(new Aquatic("Bateau a voile", 18, 99, 2500));
+        this.attractionList.add(new Aquatic("Ballade en mer", 3, 12, 3000));
+
         this.attractionList.add(new Carousel("Manège pour enfants", 3, 12, 1500));
         this.attractionList.add(new Carousel("Manège pour adultes", 18, 99, 2500));
         this.attractionList.add(new Carousel("Manège voitures", 7, 18, 2000));
-        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
-        this.attractionList.add(new Aquatic("Bateau a voile", 18, 99, 2500));
-        this.attractionList.add(new Aquatic("Ballade en mer", 3, 12, 2500));
+        this.attractionList.add(new Carousel("Manège FarWest", 7, 18, 2850));
+
+        this.attractionList.add(new Child("Pêche a la ligne", 0, 5, 850));
+        this.attractionList.add(new Child("La mare aux canards", 0, 5, 1200));
+        this.attractionList.add(new Child("Ballade à dos d'ane", 3, 10, 1850));
+
+        this.attractionList.add(new DropTower("Chute libre", 12, 99, 8500));
+        this.attractionList.add(new DropTower("Boomerang", 12, 99, 3500));
+        this.attractionList.add(new DropTower("Haut en bas", 12, 99, 4250));
+        this.attractionList.add(new DropTower("Dans la mine", 12, 99, 1999));
+        this.attractionList.add(new DropTower("Attention dessous", 12, 99, 3800));
+
+        this.attractionList.add(new RollerCoaster("Grande roue", 12, 99, 3500));
+        this.attractionList.add(new RollerCoaster("Grand 8", 12, 99, 2250));
+        this.attractionList.add(new RollerCoaster("Speedtest", 12, 99, 3000));
+        this.attractionList.add(new RollerCoaster("Faster than light", 12, 99, 4500));
+        this.attractionList.add(new RollerCoaster("Navette verticale inversée", 18, 99, 2855));
+        this.attractionList.add(new RollerCoaster("Monorail", 5, 99, 2999));
 
         this.areaList.add(new Area(Area.AQUATIC));
         this.areaList.add(new Area(Area.CAROUSEL));
