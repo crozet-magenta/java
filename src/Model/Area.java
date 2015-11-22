@@ -1,6 +1,7 @@
 package Model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -78,7 +79,7 @@ public class Area extends Model {
     }
 
     public String getTypeAsString() {
-        return this.AttractionTypes.get(Integer.toString(this.type));
+        return this.AttractionTypes.get(this.type);
     }
 
 
@@ -281,5 +282,13 @@ public class Area extends Model {
                 ", Capacity=" + capacity +
                 ", Attractions=" + Attractions +
                 '}';
+    }
+
+    public int getfreeSpace() {
+        return freeSpace;
+    }
+
+    public ArrayList<Attraction> getAttractions() {
+        return Attractions;
     }
 }

@@ -50,7 +50,7 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
      * Default close
      */
     private boolean status = false;
-
+    private String type;
 
 
     /**
@@ -160,6 +160,12 @@ public abstract class Attraction extends Model implements IOpenable, ICleanable 
         return status == true;
     }
 
-
-
+    public int getType() {
+        if(this instanceof Aquatic) return Area.AQUATIC;
+        if(this instanceof Carousel) return Area.CAROUSEL;
+        if(this instanceof Child) return Area.CHILD;
+        if(this instanceof DropTower) return Area.DROP_TOWER;
+        if(this instanceof RollerCoaster) return Area.ROLLER_COASTER;
+        return -1;
+    }
 }

@@ -40,7 +40,11 @@ public class Shop extends Model {
         this.attractionList.add(new Carousel("Manège pour enfants", 3, 12, 1500));
         this.attractionList.add(new Carousel("Manège pour adultes", 18, 99, 2500));
         this.attractionList.add(new Carousel("Manège voitures", 7, 18, 2000));
-        this.attractionList.add(new Aquatic());
+        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
+        this.attractionList.add(new Aquatic("Bateau a voile", 18, 99, 2500));
+        this.attractionList.add(new Aquatic("Ballade en mer", 3, 12, 2500));
+        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
+        this.attractionList.add(new Aquatic("Bateau a moteur", 12, 99, 2500));
 
         this.areaList.add(new Area(Area.AQUATIC));
         this.areaList.add(new Area(Area.CAROUSEL));
@@ -68,7 +72,13 @@ public class Shop extends Model {
      * @return ArrayList<String>
      */
     public ArrayList<String> attractionList() {
-        return this.attractionList.stream().map(Object::toString).collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<String> data = new ArrayList<>();
+        int i = 1;
+        for (Attraction item : this.attractionList) {
+            data.add("" + i + ": " + item.getName() + " - " + item.getClass().getSimpleName() + "("+ item.price +"€)");
+            i+=1;
+        }
+        return data;
     }
 
 
@@ -167,5 +177,9 @@ public class Shop extends Model {
         return "Shop{" +
                 "attractionList=" + attractionList +
                 '}';
+    }
+
+    public double getSellPrice() {
+        return sellPrice;
     }
 }

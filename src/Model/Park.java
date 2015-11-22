@@ -2,6 +2,7 @@ package Model;
 
 import Interfaces.ICleanable;
 import Interfaces.IOpenable;
+import org.w3c.dom.Attr;
 
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -42,9 +43,9 @@ public class Park extends Model implements IOpenable, ICleanable {
     private final int areaSize = 10;
 
     /**
-     * Ticket prices to visit the park
+     * Ticket price to visit the park
      */
-    private double prices = 0;
+    private double price = 0;
 
     /**
      * Area list
@@ -122,8 +123,8 @@ public class Park extends Model implements IOpenable, ICleanable {
      * Function setPrices()
      * Define the new price for the ticket
      */
-    public void setPrices(double prices) {
-        this.prices = prices;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
 
@@ -274,7 +275,7 @@ public class Park extends Model implements IOpenable, ICleanable {
                 "name='" + name + '\'' +
                 ", status=" + status +
                 ", Free space=" + freeSpace +
-                ", prices=" + prices +
+                ", price=" + price +
                 ", Areas=" + areas +
                 ", stock=" + stock +
                 ", money=" + money +
@@ -520,7 +521,7 @@ public class Park extends Model implements IOpenable, ICleanable {
         ArrayList<Area> list = findAreasByType(type);
 
         // if no results
-        if(list.equals(null))
+        if(list == null)
             return null;
 
         // find first with enough space
@@ -547,5 +548,61 @@ public class Park extends Model implements IOpenable, ICleanable {
     }
 
 
+    public ArrayList<String> stockList() {
+        ArrayList<String> data = new ArrayList<>();
+        int i = 1;
+        for (Attraction item : this.stock) {
+            data.add("" + i + ": " + item.getName() + " - " + item.getClass().getSimpleName() + " (Valeur : "+ item.price*Shop.getInstance().getSellPrice() +"€)");
+            i+=1;
+        }
+        return data;
+    }
 
+    public ArrayList<String> InstalledList() {
+        ArrayList<String> data = new ArrayList<>();
+        int i = 1;
+        for (Attraction item : this.getInstalledAttractions()) {
+            data.add("" + i + ": " + item.getName() + " - " + item.getClass().getSimpleName() + " (Valeur : "+ item.price*Shop.getInstance().getSellPrice() +"€)");
+            i+=1;
+        }
+        return data;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public String listAreas() {
+        String data = "Zones du parc :\n";
+        for (Area item : this.areas) {
+            data += "- Zone de type "+item.getTypeAsString()+" "+item.getfreeSpace()+" emplacement(s) libre(s)\n";
+        }
+        return data;
+    }
+
+    public String listAttractions(boolean installed) {
+        ArrayList<Attraction> data = installed?this.getInstalledAttractions():this.stock;
+
+        String list = "Attractions :\n";
+        for (Attraction item : data) {
+            list += "- "+item.getName() + " - " + item.getClass().getSimpleName()+"\n";
+        }
+        return list;
+    }
+
+    public ArrayList<Attraction> getInstalledAttractions() {
+        ArrayList<Attraction> list = new ArrayList<>();
+        for (Area item : this.areas) {
+            list.addAll(item.getAttractions());
+        }
+        return list;
+    }
+
+    public Area findAreaContainsAttraction(Attraction attraction) {
+        if(areas.isEmpty()) return null;
+        for(Area a : areas) {
+            if (a.getAttractions().contains(attraction)) return a;
+        }
+        return null;
+    }
 }

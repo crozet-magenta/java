@@ -90,7 +90,7 @@ public class App extends View {
             c.readLine();
         } else {
             try {
-                System.out.println("\nPress ENTER to proceed.\n");
+                System.out.println("\n     Appuyer sur ENTER pour continuer...\n");
                 System.in.read();
             } catch (IOException e) {
                 e.printStackTrace();
